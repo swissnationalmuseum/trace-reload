@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import useCount from '../composables/useCount';
 
 defineProps<{ msg: string }>()
@@ -12,18 +12,24 @@ onMounted(() => {
   count.set(currentCount);
 });
 
+const color = computed(() => count.state.value > 1 ? '#721c24' : '#155724');
 </script>
 
 <template>
   <div class="card">
     <h1>{{ msg }}</h1>
-    <h2>Reload count: {{ count.state.value }}</h2>
-    <button type="button" @click="count.set(0)">Reset count</button>
+    <p class="count" >{{ count.state.value }}</p>
+    <button type="button" @click="count.set(1)">Reset count</button>
   </div>
 </template>
 
 <style scoped>
 .card {
   color: #888;
+}
+.count {
+  font-size: 15rem;
+  font-weight: bold;
+  color: v-bind(color)
 }
 </style>
